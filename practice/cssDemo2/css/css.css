@@ -51,7 +51,7 @@
     z-index: 2;
     position: absolute;
     top: 200px;
-    right: 35%;
+    right: 36%;
 }
 
 .main form .formip {
@@ -70,4 +70,29 @@
     width: 123px;
     height: 39px;
     margin-left: 35%;
+}
+
+
+.about .aboutA {
+    text-align: center;
+    margin-top: 50px;
+    font-family: "Microsoft Yahei", 微软雅黑;
+}
+
+.about .aboutA .aboutAa{
+    font-weight: bold;
+    font-size: 30px;
+    margin-bottom: 10px;
+
+}
+.about .aboutA .aboutAb{
+    width: 25px;
+    height: 2px;
+    background-color: #07cbc9;
+    margin: 0 auto;
+}
+
+.about .aboutA .aboutAc{
+    margin-top: 10px;
+    color: #7D7D7D;
 }
