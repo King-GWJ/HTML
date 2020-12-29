@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1, user-scalable=no, minimum-scale=1, maximum-scale=1" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Cache-Control" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="format-detection" content="telephone = no" />
+    <script src="jquery-3.3.1.min.js"></script>
+    <script src="lodash-4.5.0.js"></script>
+    <script src="unicom-coin-chuanshanjia-1.1.js"></script>
+    <script src="unicom-coin-YLH-1.0.js"></script>
+    <!-- <script src="https://img.client.10010.com/stprototype/commonlibs/toutiaolibs/unicom-coin-chuanshanjia-1.1.js"></script> -->
+    <script src="ylhdemo/js/vconsole.min.js"></script>
+
+
+    <title>广告接口示例</title>
+    <style>
+        button {
+            width: 100px;
+            height: 50px;
+            margin: 20px;
+        }
+
+        .alert {
+            display: none;
+            position: fixed;
+            background-color: rgba(1, 1, 1, 0.2);
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .content {
+            width: 300px;
+            height: 400px;
+            background-color: gray;
+            position: relative;
+        }
+
+        .guanggao {
+            position: absolute;
+            left: 0;
+            bottom: 0px;
+            width: 100%;
+            height: 150px;
+            background: white;
+            color: white;
+            font-size: 60px;
+            text-align: center;
+            line-height: 100px;
+        }
+
+        body {
+            position: relative;
+        }
+    </style>
+</head>
+
+<body style="overflow-y: scroll;">
+
+<h1>IOS 需要区分APP下载包和测试包</h1>
+
+<button id="btn1">展示展示弹窗</button>
+
+<div class="alert" id="alert">
+    <div class="container">
+        <div class="content">
+            <div class="guanggao" id="guanggaobanner">广告位</div>
+        </div>
+    </div>
+</div>
+
+<h1>优量汇试例</h1>
+<div onclick="displayTheOptimalSinkExcitationVideo()" style="font-size: 20px;border: 2px solid #000000;margin-top:10px;">显示优量汇激励视频</div>
+<div onclick="pullUpSelfRendering()" style="font-size: 20px;border: 2px solid #000000;margin-top:10px;">显示优量自渲染数据</div>
+
+</body>
+
+<script>
+    vConsole = new VConsole();
+
+    //拉起激励视频
+    function displayTheOptimalSinkExcitationVideo(){
+        increaseTheQuantityOfForeignExchange(0);
+    }
+
+    //拉起激励视频
+    function pullUpSelfRendering(){
+        increaseTheQuantityOfForeignExchange(1);
+    }
+
+    //拉起优量汇
+    function increaseTheQuantityOfForeignExchange(type) {
+
+        //激励视频
+        //定义一个函数，接收视频开发播放通知
+        function startPlayVideo() {
+            console.log('激励视频开始播放');
+        }
+
+        //定义一个函数，接收视频播放完成通知
+        function onComplete() {
+            console.log('激励视频播放完毕');
+        }
+
+        //定义一个函数，接收视频播失败通知
+        function onError(error) {
+            if (error.code == 4014) {
+                console.log("请拉取到广告后再调用展示接口");
+            } else if (error.code == 4016) {
+                console.log("应用方向与广告位支持方向不一致");
+            } else if (error.code == 5012) {
+                console.log("广告已过期");
+            } else if (error.code == 4015) {
+                console.log("广告已经播放过，请重新拉取");
+            } else if (error.code == 5002) {
+                console.log("视频下载失败");
+            } else if (error.code == 5003) {
+                console.log("视频播放失败");
+            } else if (error.code == 5004) {
+                console.log("没有合适的广告");
+            } else if (error.code == 5013) {
+                console.log("请求太频繁，请稍后再试");
+            } else if (error.code == 3002) {
+                console.log("网络连接超时");
+            } else if (error.code == 5027){
+                console.log("页面加载失败");
+            }else {
+                console.log(error.code);
+            }
+            alert(error.code);
+        }
+
+        //自渲染
+        //定义一个函数，接收自渲染请求数据 返回来的是一个对象集合
+        /*  后面根据参数还有根据需求，如果有需要在添加
+        *title 广告标题
+        *desc 广告描述
+        *imageUrl 广告大图Url
+        *imageWidth 素材宽度，单图广告代表大图 imageUrl 宽度、多图广告代表小图 mediaUrlList 宽度
+        *imageHeight 素材高度，单图广告代表大图 imageUrl 高度、多图广告代表小图 mediaUrlList 高度
+        * */
+        function requestDataSuccess(data) {
+            console.log(data);
+            alert(data);
+        }
+
+        //定义一个函数，接收自渲染请求数据失败
+        function requestDataFail(error) {
+            if (error.code == 5004) {
+                console.log("没匹配的广告，禁止重试，否则影响流量变现效果");
+            } else if (error.code == 5005) {
+                console.log("流量控制导致没有广告，超过日限额，请明天再尝试");
+            } else if (error.code == 5009) {
+                console.log("流量控制导致没有广告，超过小时限额");
+            } else if (error.code == 5006) {
+                console.log("包名错误");
+            } else if (error.code == 5010) {
+                console.log("广告样式校验失败");
+            } else if (error.code == 3001) {
+                console.log("网络错误");
+            } else if (error.code == 5013) {
+                console.log("请求太频繁，请稍后再试");
+            } else if (error) {
+                console.log("ERROR: %@", error);
+            }
+            alert(error.code);
+        }
+
+
+        //现在没有具体业务，我们先做一个简单的拉起激励视频播放
+        var videoAdConfig = {
+            ylhadtype:type,//优量汇类型 0是激励视频 1是自渲染
+            PlacementId:'4090398440079274',//安卓的广告位 必填
+            iosPlacementId:'2010198333498040',//iOS的广告位 必填 '2010198333498040' 5040546242831432
+            openVioce:'0',//是否开启激励视频声音 0关闭 1开启 激励视频必填
+            minVideoDuration:'5', //自渲染广告视频时间最小值（秒）[5,60] 自渲染必填(Android不需要)
+            maxVideoDuration:'60',//自渲染广告视频时间最大值（秒）[5,60] 最大值不能小于最小值 自渲染必填(Android不需要)
+            AdCount:'10', //自渲染广告加载条数 不能小于0 自渲染必填
+            // acId:'',
+            // taskId:'',
+            // // acId:'fgdfgsdgsdg',
+            // taskId:'dsgdsfgdsgdsf',
+            // remark:'阅读计时器任务得积分',
+            // channel: 'GGPD',
+            // channelName:'阅读计时器看视频得积分',//必传，不传后果很重。代码位名称，找维护申请
+            // accountChannel:'517050707',//渠道编码，取值见下方截图
+            // accountUserName:"517050707",//用户名，取值见下方截图
+            // accountPassword:"123456",//用户密码，取值见下方截图
+            // accountToken:"4640b530b3f7481bb5821c6871854ce5", //用户token，取值见下方截图
+            // rewards:true,
+            // unWantedToast2:unToast2,////是否需要任务完成后弹出“关闭当前页面领取奖励”，配置为true不弹。默认false
+            startPlayVideo:startPlayVideo, //视频开始播放回调，根据业务需求配置
+            onComplete:onComplete, //视频播放完成回调,根据业务需求配置
+            onError:onError, //视频开始错误回调，根据业务需求配置
+            requestDataSuccess:requestDataSuccess,//接收自渲染请求数据,根据业务需求配置
+            requestDataFail:requestDataFail //接收自渲染请求数据失败,根据业务需求配置
+        }
+        //测试用生产请删除
+        if (type == 0){
+            videoAdConfig.iosPlacementId = "5040546242831432"
+            videoAdConfig.PlacementId='6040295592058680'
+        }
+
+        //显示视频广告
+        UnicomYLHAd.showYLHVideoAd(videoAdConfig);
+    }
+
+    function requestDataSuccess(data) {
+            console.log(data);
+            alert(data);
+    }
+</script>
+
+</html>

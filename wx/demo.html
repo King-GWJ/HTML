@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1, user-scalable=no, minimum-scale=1, maximum-scale=1"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Cache-Control" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+    <meta name="format-detection" content="telephone = no"/>
+    <script src="./js/vconsole.min.js"></script>
+    <script src="./js/msJSbridge.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <h1></h1>
+    
+    <div onclick="wxCode()" style="font-size: 20px;border: 2px solid #000000;">1：获取微信 code</div>
+    <h1></h1>
+    
+    <div onclick="accessToken()" style="font-size: 20px;border: 2px solid #000000;margin-top:20px">
+        2：通过 code 获取 access_token
+        和 refresh_token
+    </div>
+    <h1></h1>
+
+    <div onclick="userInfo()" style="font-size: 20px;border: 2px solid #000000;">3：获取授权登陆的用户信息</div>
+</body>
+<script>
+    vConsole = new VConsole();
+    
+    function wxCode() {
+        ms.exec("wx", {
+            type: "sendAuthRequest",//固定参数
+            params: {
+                appid: "",
+                scope: "snsapi_userinfo",
+                state: "wxWebLogin"
+            }
+        }).then(res => {
+            //结果处理
+            console.log("wxCode1:" + res.code);
+            accessToken(res.code);
+        }).catch(e => {
+            //异常处理
+            console.log("wxCode2:" + e.data);
+        });
+    }
+    
+    function accessToken(code) {
+        ms.exec("wx", {
+            type: "oauth2GetAccess_token",//固定参数
+            params: {
+                appid: "",
+                secret: "",
+                code: code,
+                grant_type: "authorization_code"
+            }
+        }).then(res => {
+            //结果处理
+            console.log("accessToken1:" + res.access_token);
+            userInfo(res.access_token, res.openid);
+        }).catch(e => {
+            //异常处理
+            console.log("accessToken2:" + e);
+        });
+        
+    }
+    
+    function userInfo(access_token, openid) {
+        // ms.exec("wx", {
+        //         type:"getUserInfo",//固定参数
+        //         params:{
+        //             access_token: access_token,
+        //             openid: openid,
+        //             lang: "zh_CN"
+        //         }
+        // }).then(res => {
+        //     //结果处理
+        //     console.log("userInfo1:"+res);
+        // }).catch(e => {
+        //     //异常处理
+        //     console.log("userInfo2:"+e);
+        // });
+        
+        
+    }
+
+
+</script>
+</html>

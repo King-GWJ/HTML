@@ -1,0 +1,24 @@
+{
+	"status": "success",
+	"coinAdEntityList": [
+		{
+			"coinTask": {
+				"coin_num": 20
+			},
+			"styleAdEntity": {
+				"mAdType": "APP",
+				"mBigPicUrl": "http://pgdt.gtimg.cn/gdt/0/EAA3YtYAPoAIwAAAPkDBd8wUzBI_pJHzo.jpg/0?ck=226553ace1e9f28b7bfd653de8ee5c45",
+				"mBtnText": "查看",
+				"mIconUrl": "http://pgdt.gtimg.cn/gdt/0/EAA3YtYABQABQAAAAWHBd6HNqBrMJXdCu.png/0?ck=2176375231b847b71b60937f7b1af9a3",
+				"mMainTitle": "热门大牌护肤新客专享价！【神仙水】热卖套装，尽在丝芙兰！",
+				"mSubTitle": "丝芙兰SEPHORA",
+				"mUniqueKey": "8C8315E2E2B94365E36260B83E95BD25",
+				"mVideoUrl": ""
+			},
+			"uuid": "c2bc80f3-b8d2-4937-892c-46fddea06e63"
+		}
+	],
+	"taskCount": "1",//今天的任务总数 if(coinTask.task_status ==1 || coinTask.task_status ==2 || coinTask.task_status ==3)
+	"submitCount": "0",//已经完成的任务数量 if(coinTask.task_status == 3)
+	"pendingCount": "1"//未完成的任务数量 if(coinTask.task_status ==1 || coinTask.task_status ==2)
+}

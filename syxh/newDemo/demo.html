@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport"
+		content="width=device-width,initial-scale=1, user-scalable=no, minimum-scale=1, maximum-scale=1" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Cache-Control" content="no-cache" />
+	<meta http-equiv="Expires" content="0" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	<meta name="format-detection" content="telephone = no" />
+    <script src="js/vconsole.min.js"></script>
+    <script src="./js/msJSbridge.js"></script>
+
+	<title>广告接口示例</title>
+</head>
+
+<body style="overflow-y: scroll;">
+
+    <h1>调用客户端接口，客户端直接来显示广告</h1>
+    <div onclick="rewardVideo()" style="font-size: 20px;border: 2px solid #000000;">1：激励视频广告</div>
+    <div onclick="bannerVideo()" style="font-size: 20px;border: 2px solid #000000;margin-top:20px">2：Banner广告(暂无)</div>
+    <div onclick="pasterVideo()" style="font-size: 20px;border: 2px solid #000000;margin-top:20px">3：信息流广告(暂无)</div>
+</body>
+
+<script>
+    vConsole = new VConsole();
+    //判断当前客户端版本
+ // ms.getClientInfo().then(res=>{
+        //     console.log(res.appVersion)
+        //     //成功回调
+        //  })
+        // .catch(e=>{
+        //     //失败回调
+        // })
+        // .finally(()=>{
+        //     //方法执行完毕
+        // });
+
+    //激励视屏
+    function rewardVideo(){
+
+        var videoAdConfig = {
+            pidAndroid:'73646b0799001991',//Android广告位id  1016371  987654001  73646b0799001991
+        	pidIOS:'1016372',//iOS广告位id
+        	isComplete:true,//视频播放完成是否提示用户
+            isIntegral:true,//是否弹出增加积分弹窗
+            request:{
+                acId:'AC20200416152907', //活动ID
+                taskId:'9ec5672eb7194db7a1f28f8a3b19cf11',//任务ID,不送积分不用填写
+                workNo:'COOP10002',//用户工号
+                userPass:'123456',//用户密码        
+                useKey:'c03a37d135454cdbbd2548efa74a0734',//用户token
+                transfer:'non-query | null | null',//透传字段  按照”|”进行分割  方便以后增加字段 （non-query  字段代表不送积分奖励）
+                platId:'GGPD',//频道编码,现阶段是写死。
+                channel:'COOP10002',//渠道编码
+                remark:'测试'//备注,传任务名称
+            }
+        }
+        
+        ms.execKeep("rewardVideo", videoAdConfig).then(res => {
+            //结果处理
+            console.log(JSON.stringify(res));
+        }).catch(e => {
+            //异常处理
+            console.log("2:"+e.data);
+        });
+
+    }
+
+    //banner广告
+    function bannerVideo(){
+        
+    }
+
+    //信息流广告
+    function pasterVideo(){
+        
+    }
+
+
+</script>
+
+</html>

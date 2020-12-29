@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport"
+		content="width=device-width,initial-scale=1, user-scalable=no, minimum-scale=1, maximum-scale=1" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Cache-Control" content="no-cache" />
+	<meta http-equiv="Expires" content="0" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	<meta name="format-detection" content="telephone = no" />
+	<script src="js/jquery-3.3.1.min.js"></script>
+	<script src="js/lodash-4.5.0.js"></script>
+	<script src="js/unicom-coin-ylh-1.0.js"></script>
+	<script src="js/vconsole.min.js"></script>
+	<title>广告接口示例</title>
+</head>
+
+<body style="overflow-y: scroll;">
+
+    <h1>调用客户端接口，客户端直接来显示广告</h1>
+
+    <div onclick="showVideoAd()" style="font-size: 20px;border: 2px solid #000000;">1：直接显示激励视频广告</div>
+
+    <h1>通过客户端拿到广告数据，自己决定怎么展示广告</h1>
+
+    <div onclick="unifiedVideoAd()" style="font-size: 20px;border: 2px solid #000000;margin-top:20px">2：自渲染视频广告</div>
+    <span style="font-size: 13px;color: #ff0000;">点击图片开始做任务</span>
+    <div id="span01" style="font-size: 15px;"></div>
+    <img id="img01" src="" style="width: 300px;"/>
+    <div onclick="wxLogin()" style="font-size: 20px;border: 2px solid #000000;margin-top:20px">微信登录</div>
+</body>
+
+<script>
+    vConsole = new VConsole();
+    //判断当前客户端版本
+    var clientVersion = UnicomYHLAd.getClientVersion();
+    if(!_.isNil(clientVersion) && !_.isEmpty(clientVersion)){
+          alert(clientVersion.split("@")[0]+','+clientVersion.split("@")[1])
+    }
+    
+    //激励视频
+    function showVideoAd(){
+
+         //获取成功
+        function onComplete(data) {
+            console.log(data)
+        }
+
+        //获取失败
+        function onError(error) {
+            console.log(error)
+        }
+
+        var videoAdConfig = {
+            PlacementId:'6040295592058680',//广告id
+            openVioce:'0',//是否开启声音(0:关闭,1:打开)
+            onComplete:onComplete,
+            onError:onError
+        }
+
+        //显示视频广告
+        UnicomYHLAd.showVideoAd(videoAdConfig);
+    }
+
+    //自渲染
+    function unifiedVideoAd(){
+        //获取成功
+        function onComplete(data) {
+            console.log(data)
+        }
+        //获取失败
+        function onError(error) {
+            console.log(error)
+        }
+
+        var videoAdConfig = {
+            PlacementId:'4090398440079274',
+            AdCount:'10',
+            onComplete:onComplete,
+            onError:onError
+        }
+
+        //显示视频广告
+        UnicomYHLAd.unifiedVideoAd(videoAdConfig);
+    }
+
+    function wxLogin(){
+        UnicomYHLAd.wxLogin();
+    }
+
+    function wxAtion(data){
+        console.log(data)
+    }
+
+</script>
+
+</html>

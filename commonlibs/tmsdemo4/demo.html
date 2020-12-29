@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport"
+		content="width=device-width,initial-scale=1, user-scalable=no, minimum-scale=1, maximum-scale=1" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Cache-Control" content="no-cache" />
+	<meta http-equiv="Expires" content="0" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	<meta name="format-detection" content="telephone = no" />
+	<script src="js/jquery-3.3.1.min.js"></script>
+	<script src="js/lodash-4.5.0.js"></script>
+	<script src="js/unicom-coin-tms-4.1.js"></script>
+	<script src="js/vconsole.min.js"></script>
+	<title>广告接口示例</title>
+</head>
+
+<body style="overflow-y: scroll;">
+
+    <h1>登录+分享</h1>
+    <div onclick="checkClientVersion()" style="font-size: 20px;border: 2px solid #000000;">获取客户端版本号</div>
+    <div onclick="checkIsLogin()" style="font-size: 20px;border: 2px solid #000000;margin-top:20px;">判断是否登录</div>
+    <div onclick="login()" style="font-size: 20px;border: 2px solid #000000;margin-top:20px;">拉起客户端登录</div>
+    <div onclick="share()" style="font-size: 20px;border: 2px solid #000000;margin-top:20px;">主动分享</div>
+    <div onclick="registeMoreMenu()" style="font-size: 20px;border: 2px solid #000000;margin-top:20px;">注册右上角菜单</div>
+    
+    <h1>调用客户端接口，客户端直接来显示广告</h1>
+
+    <div onclick="showVideoAd()" style="font-size: 20px;border: 2px solid #000000;">1：直接显示视频广告（android 7.2版本及以上支持）</div>
+    <div onclick="showVideoAd2()" style="font-size: 20px;border: 2px solid #000000;margin-top:20px;">2：直接显示视频广告-V2（传递JSON参数）（android 7.4版本及以上支持）</div>
+
+    <div onclick="showBannerAd()" style="font-size: 20px;border: 2px solid #000000;margin-top:20px;">3：直接显示Banner广告（android 7.4版本及以上支持）</div>
+    <div id="hideBannerDiv" onclick="hideBannerAd()" style="font-size: 20px;border: 2px solid #000000;margin-top:20px;display: none;">3：关闭显示的Banner广告（android 7.4版本及以上支持）</div>
+
+    <h1>通过客户端拿到广告数据，自己决定怎么展示广告</h1>
+
+    <div onclick="getCardData()" style="font-size: 20px;border: 2px solid #000000;margin-top:20px">1：获取卡券数据，前端进行个性化渲染（android 7.4.1版本及以上支持，iOS 7.4.1版本及以上支持）</div>
+    <span style="font-size: 13px;color: #ff0000;">点击图片开始做任务</span>
+    <div id="span03" style="font-size: 15px;"></div>
+	<img id="img03" src="" style="width: 70px;"/>
+
+	<div onclick="getBannerData()" style="font-size: 20px;border: 2px solid #000000;margin-top:20px">2：获取Banner数据，前端进行个性化渲染（android 7.2版本及以上支持，iOS 7.4.1版本及以上支持）</div>
+    <span style="font-size: 13px;color: #ff0000;">点击图片开始做任务</span>
+    <div id="span01" style="font-size: 15px;"></div>
+	<img id="img01" src="" style="width: 300px;"/>
+
+
+	<div onclick="getAppDownloadData()" style="font-size: 20px;border: 2px solid #000000;margin-top:20px">3：获取APP应用数据，前端进行个性化渲染（android 7.2版本及以上支持）</div>
+    <span style="font-size: 13px;color: #ff0000;">点击图标开始做任务</span>
+    <div id="span02" style="font-size: 15px;"></div>
+    <img id="img02" src="" style="width: 70px;"/>
+    
+
+    <h1>下载有礼</h1>
+	<div onclick="loadADFrom103XiaZaiYouLi()" style="font-size: 20px;border: 2px solid #000000;margin-top:20px">从下载有礼中获取app下载任务，点击跳转下载专区并自动下载（android 7.4.1版本及以上支持）</div>
+    <span style="font-size: 13px;color: #ff0000;">点击图片开始做任务</span>
+    <div id="span04" style="font-size: 15px;"></div>
+    <img id="img04" src="" style="width: 70px;"/>
+    
+    <h1>APP列表</h1>
+	<div onclick="loadAppAdList()" style="font-size: 20px;border: 2px solid #000000;margin-top:20px">获取多个APP广告列表数据，点击其中一个进入APP下载列表页面并自动开始下载（android 7.5版本及以上支持）</div>
+    <span style="font-size: 13px;color: #ff0000;">点击图片开始做任务</span>
+    <div id="span05" style="font-size: 15px;"></div>
+	<img id="img05" src="" style="width: 70px;"/>
+
+</body>
+
+<script>
+    vConsole = new VConsole();
+
+    //联通总部渠道，涉及收益分成，请换成自己的渠道
+    var channel = "ChinaUnicom";
+
+    //获取app广告列表数据，点击跳转到下载列表并自动开始下载
+    function loadAppAdList(){
+        //定义一个函数，接收列表数据
+       function acceptData(data) {
+            if(!_.isNil(data)){
+                if("success" == data.status){
+                    var coinAdEntityList = data.coinAdEntityList;
+                    //总任务数量
+                    var totalTaskCount = data.taskCount;
+                    //待执行的任务数量
+                    var pendingTaskCount = data.pendingCount;
+                    //已执行的任务数量
+                    var submitTaskCount = data.submitCount;
+                    if(coinAdEntityList.length > 0){
+                        //当前广告
+                        var adEntity = coinAdEntityList[0].styleAdEntity;
+                        //当前需要做的任务，如果任务都做完了，需要判断是否是undefind或者null
+                        var coin_num = 0;
+                        var coinTask = coinAdEntityList[0].coinTask;
+                        if(!_.isNil(coinTask)){
+                            //任务赠送积分的数量
+                            coin_num = coinTask.coin_num;
+                        }
+                        var mSubTitle = adEntity.mSubTitle;
+                        var mMainTitle = adEntity.mMainTitle;
+
+                        var title = "主标题："+mMainTitle+"<br/>"
+                        +"子标题："+mSubTitle+"<br/>"
+                        +"送积分："+coin_num+"<br/>"
+                        +"总任务数："+totalTaskCount+"<br/>"
+                        +"已完成任务："+submitTaskCount+"<br/>"
+                        +"未完成任务："+pendingTaskCount+"<br/>"
+                        +"<font color='#ff00ff'><b>返回的集合中包含的广告数量："+coinAdEntityList.length+"</b></font><br/>";
+
+                        //icon图片
+                        var mIconUrl = adEntity.mIconUrl;
+                        
+                        document.getElementById("span05").innerHTML = title;
+                        
+                        document.getElementById("img05").setAttribute('src',mIconUrl);
+                        
+                        document.getElementById("img05").onclick = function(){
+                            //广告的唯一识别码，跳转时需要携带
+                            var mUniqueKey = adEntity.mUniqueKey;
+                            var config = {
+                                mUniqueKey: mUniqueKey,
+                                taskType: 103,
+                                channel: channel,
+                                sceneId: '0005',
+                                gameId:'需要换成真实gameId',
+                                gameSceneId:'需要换成真实gameSceneId',
+                                taskUpdateCallback:function(){
+                                    //如果在下载列表里面做了任务，那么任务状态会有变化，需要在此处重新刷新当前页面数据
+                                    alert("任务状态有变化，重新刷新广告数据");
+                                    loadAppAdList();
+                                }
+                            }
+                            UnicomTMSCoinAd.openAppAdList(config);
+                        }
+                    }else{
+                        document.getElementById("span05").innerHTML = "暂无广告";
+                    }
+                }else{
+                    document.getElementById("span05").innerHTML = JSON.stringify(data);
+                }
+            }
+        }
+        
+        var config = {
+            taskType: 103,
+            channel: channel,
+            sceneId: '0005',
+            gameId:'需要换成真实gameId',
+            gameSceneId:'需要换成真实gameSceneId',
+            callback:acceptData, //接收数据
+        }
+
+        //从下载专区中读取一条app下载任务
+        UnicomTMSCoinAd.loadAppAdList(config); 
+    }
+
+    //从下载有礼中获取app下载任务，点击跳转下载专区并自动下载（android 7.4.1版本及以上支持）
+    function loadADFrom103XiaZaiYouLi(){
+       //定义一个函数，接收视频播放完成通知
+       function acceptData(data) {
+            if(!_.isNil(data)){
+                if("success" == data.status){
+                    var coinAdEntityList = data.coinAdEntityList;
+                    //总任务数量
+                    var totalTaskCount = data.taskCount;
+                    //待执行的任务数量
+                    var pendingTaskCount = data.pendingCount;
+                    //已执行的任务数量
+                    var submitTaskCount = data.submitCount;
+                    if(coinAdEntityList.length > 0){
+                        //当前广告
+                        var adEntity = coinAdEntityList[0].styleAdEntity;
+                        //当前需要做的任务，如果任务都做完了，需要判断是否是undefind或者null
+                        var coin_num = 0;
+                        var coinTask = coinAdEntityList[0].coinTask;
+                        if(!_.isNil(coinTask)){
+                            //任务赠送积分的数量
+                            coin_num = coinTask.coin_num;
+                        }
+                        var mSubTitle = adEntity.mSubTitle;
+                        var mMainTitle = adEntity.mMainTitle;
+
+                        var title = "主标题："+mMainTitle+"<br/>"
+                        +"子标题："+mSubTitle+"<br/>"
+                        +"送积分："+coin_num+"<br/>"
+                        +"总任务数："+totalTaskCount+"<br/>"
+                        +"已完成任务："+submitTaskCount+"<br/>"
+                        +"未完成任务："+pendingTaskCount+"<br/>"
+                        +"<font color='#ff00ff'>返回的集合中包含的广告数量："+coinAdEntityList.length+"</font><br/>";
+
+                        //icon图片
+                        var mIconUrl = adEntity.mIconUrl;
+                        
+                        document.getElementById("span04").innerHTML = title;
+                        
+                        document.getElementById("img04").setAttribute('src',mIconUrl);
+                        
+                        document.getElementById("img04").onclick = function(){
+                            //广告的唯一识别码，跳转下载有礼时需要携带
+                            var mUniqueKey = adEntity.mUniqueKey;
+                            UnicomTMSCoinAd.open103XiaZaiYouLi(mUniqueKey,function(){
+                                //如果在下载有礼专区里面做了任务，那么任务状态会有变化，需要在此处重新刷新当前页面数据
+                                alert("任务状态有变化，重新刷新广告数据");
+                                loadADFrom103XiaZaiYouLi();
+                            });
+                        }
+                    }else{
+                        document.getElementById("span04").innerHTML = "暂无广告";
+                    }
+                }else{
+                    document.getElementById("span04").innerHTML = JSON.stringify(data);
+                }
+            }
+        }
+        //从下载专区中读取一条app下载任务
+        UnicomTMSCoinAd.loadADFrom103XiaZaiYouLi(acceptData); 
+    }
+
+
+    //直接显示Banner广告（广告图是16:9比例）， 最低支持android客户端7.4版本
+    function showBannerAd(){
+        //定义浏览器宽高变量
+        var browserWidth = 0;
+        var browserHeight = 0;
+
+        //定义一个函数，接收广告加载显示完成通知
+        function bannerAdOnLoadSuccess() {
+            alert('bannerAdOnLoadSuccess 广告加载成功');
+            document.getElementById('hideBannerDiv').style.display = 'inline-block';
+        }
+
+        //定义一个函数，接收广告加载错误通知
+        function bannerAdOnLoadError(data) {
+            if(!_.isNil(data) && "failed" == data.status){
+                var errorMessage = data.errorMessage;
+                alert('bannerAdOnLoadError 错误原因：'+errorMessage);
+            }
+        }
+
+        //定义一个函数，接收广告被用户手动关闭的通知
+        function bannerAdOnHideManually(){
+            alert('bannerAdonHideManually 手动关闭了广告');
+            document.getElementById('hideBannerDiv').style.display = 'none';
+        }
+
+        //获取浏览器宽高信息
+        UnicomTMSCoinAd.getBrowserInfo(function(data){
+            //单位是px，在移动端表示的是屏幕的逻辑像素单位
+            browserWidth = data.width;
+            browserHeight = data.height;
+            alert('getBrowserInfo屏幕宽高：'+browserWidth+" "+browserHeight);
+            
+            //广告左间距
+            var leftMargin = 50;
+            //广告展示宽度
+            var width = browserWidth-leftMargin*2;
+            var left = leftMargin;
+            var bottomMargin = 20;
+            //广告上间距
+            var top = browserHeight-width*9/16-bottomMargin;
+            var bannerAdConfig = {
+                taskType: 102,
+                channel: channel,
+                screenId: '0000',
+                gameId:'需要换成真实gameId',
+                gameSceneId:'需要换成真实gameSceneId',
+                //位置和宽度单位是px
+                style:{
+                    left:left,
+                    top:top,
+                    width:width
+                },
+                adIntervals:0, //定时刷新频率，可以不配置，不配置或者配置小于等于0则不会定时刷新。单位秒
+                onLoadSuccess:bannerAdOnLoadSuccess, //广告初始化完成并显示时回调，必须要配置
+                onLoadError:bannerAdOnLoadError, //广告初始化错误,可以不配置
+                onHideManually:bannerAdOnHideManually //广告被用户手动关闭时回调，可以不配置。
+            }
+            //初始化banner广告，自动显示。广告初始化完成显示时会回调onLoad函数。
+            UnicomTMSCoinAd.showBannerAd(bannerAdConfig);
+        });
+    }
+
+
+    //隐藏banner广告，最低支持android客户端7.4版本
+    function hideBannerAd(){
+        //隐藏正在显示的广告
+        UnicomTMSCoinAd.hideBannerAd();
+        document.getElementById('hideBannerDiv').style.display = 'none';
+    }
+
+
+    //直接显示视频广告
+    function showVideoAd(){
+        //上线时要根据正式分配的编号来读取数据
+        //boolean参数表示是否有除了积分之外的奖励？如果需要赠送除了积分之外的奖励请传true，否则传fasle
+		UnicomTMSCoinAd.showVideoAd(812705,channel,'0000',false,function(data){
+            console.log('视频播放状态回调',data+" 接收时间="+new Date());
+			alert(data+" 接收时间="+new Date());
+			//onPrepared 表示视频准备就绪可以播放
+     		//onComplete 表示视频播放完成
+			//onError 表示视频播放错误
+			if("onPrepared"==data){
+			//TODO......
+			}else if("onComplete"==data){
+			//TODO......
+			}else if("onError"==data){
+			//TODO......
+			}
+        });
+    }
+
+
+    //直接显示视频广告，通过传递一个JSON配置参数
+    function showVideoAd2(){
+        //定义一个函数，接收视频播放完成通知
+        function onComplete() {
+            alert('onComplete 视频播放完成');
+        }
+
+        var videoAdConfig = {
+            taskType: 812705,
+            taskTypeIOS: 840202,
+            channel: channel,
+            sceneId: '0000',
+            positionId: '99601040',
+            styleId: '187',
+            gameId:'需要换成真实gameId',
+            gameSceneId:'需要换成真实gameSceneId',
+            rewards:true,
+            // onPrepared:null, //视频开始播放回调，可以不配置
+            onComplete:onComplete, //视频播放完成回调,必须配置
+            // onError:null //视频开始错误回调，可以不配置。
+        }
+        //显示视频广告
+        UnicomTMSCoinAd.showVideoAd2(videoAdConfig);
+    }
+
+
+    //获取卡券广告
+    function getCardData(){ 
+        //定义一个函数，接收广告数据
+        function acceptData(data) {
+            alert(JSON.stringify(data));
+            if(!_.isNil(data)){
+				if("success" == data.status){
+                    var coinAdEntityList = data.coinAdEntityList;
+                    //总任务数量
+                    var totalTaskCount = data.taskCount;
+                    //待执行的任务数量
+                    var pendingTaskCount = data.pendingCount;
+                    //已执行的任务数量
+                    var submitTaskCount = data.submitCount;
+					if(coinAdEntityList.length > 0){
+                        //当前广告
+                        var adEntity = coinAdEntityList[0].styleAdEntity;
+                        //开始做任务时需要传给客户端
+                        var uuid = coinAdEntityList[0].uuid;
+
+                        //当前需要做的任务，如果任务都做完了，需要判断是否是undefind或者null
+                        var coin_num = 0;
+                        var coinTask = coinAdEntityList[0].coinTask;
+                        if(!_.isNil(coinTask)){
+                            //任务赠送积分的数量
+                            coin_num = coinTask.coin_num;
+                        }
+                        var mSubTitle = adEntity.mSubTitle;
+                        var mMainTitle = adEntity.mMainTitle;
+                        var mBtnText = adEntity.mBtnText;
+                        var mAdType = adEntity.mAdType;
+
+                        var title = "主标题："+mMainTitle+"<br/>"
+                        +"子标题："+mSubTitle+"<br/>"
+                        +"展示类型："+mAdType+"<br/>"
+                        +"按钮名称："+mBtnText+"<br/>"
+                        +"送积分："+coin_num+"<br/>"
+                        +"总任务数："+totalTaskCount+"<br/>"
+                        +"已完成任务："+submitTaskCount+"<br/>"
+                        +"未完成任务："+pendingTaskCount+"<br/>";
+
+						//icon图片
+                        var mIconUrl = adEntity.mIconUrl;
+                        
+                        document.getElementById("span03").innerHTML = title;
+                        
+                        document.getElementById("img03").setAttribute('src',mIconUrl);
+                        
+						document.getElementById("img03").onclick = function(){
+                            //把uuid传给客户端，开始做任务
+                            UnicomTMSCoinAd.startCoinTask2({
+                                uuid:uuid,
+                                taskType: 812727,
+                                taskTypeIOS: 840204 ,
+                                channel: channel,
+                                sceneId: '0001',
+                                positionId: '99601042',
+                                styleId: '244',
+                                rewards:true,
+                                startCoinTaskCallback:startCoinTaskCallback,
+                                appStatusCallback:appStatusCallback
+                            });
+						}
+					}else{
+						document.getElementById("span03").innerHTML = "暂无广告";
+					}
+				}else{
+					document.getElementById("span03").innerHTML = JSON.stringify(data);
+				}
+			}
+        }
+
+        function startCoinTaskCallback(data){
+            alert(JSON.stringify(data));
+        }
+
+        function appStatusCallback(data){
+            //接收app成功下载安装激活各种状态回调，返回各种状态的字符串
+            // * 1：onAdAppDownloadStart  app开始下载
+            // * 2：onAdAppDownloadSucceed  app下载完成
+            // * 3：onAdAppInstall  app安装
+            // * 4：onAdAppActive  app从手厅启动激活
+            if(data === 'onAdAppActive'){
+                alert('从手厅启动并激活了广告APP');
+            }
+        }
+
+        var config = {
+            taskType: 812727,
+            taskTypeIOS: 840204,
+            channel: channel,
+            sceneId: '0001',
+            positionId: '99601042',
+            styleId: '244',
+            callback:acceptData //接收回调数据
+        }
+        //获取卡券广告
+        UnicomTMSCoinAd.getCardAdData(config);
+	}
+
+	function getBannerData(){
+        //定义一个函数，接收广告数据
+        function acceptData(data) {
+            alert(JSON.stringify(data));
+            if(!_.isNil(data)){
+				if("success" == data.status){
+                    var coinAdEntityList = data.coinAdEntityList;
+                    //总任务数量
+                    var totalTaskCount = data.taskCount;
+                    //待执行的任务数量
+                    var pendingTaskCount = data.pendingCount;
+                    //已执行的任务数量
+                    var submitTaskCount = data.submitCount;
+					if(coinAdEntityList.length > 0){
+                        //当前广告
+                        var adEntity = coinAdEntityList[0].styleAdEntity;
+                        //开始做任务时需要传给客户端
+                        var uuid = coinAdEntityList[0].uuid;
+
+                        //当前需要做的任务，如果任务都做完了，需要判断是否是undefind或者null
+                        var coin_num = 0;
+                        var coinTask = coinAdEntityList[0].coinTask;
+                        if(!_.isNil(coinTask)){
+                            //任务赠送积分的数量
+                            coin_num = coinTask.coin_num;
+                        }
+                        var mSubTitle = adEntity.mSubTitle;
+                        var mMainTitle = adEntity.mMainTitle;
+                        var mAdType = adEntity.mAdType;
+
+                        var title = "主标题："+mMainTitle+"<br/>"
+                        +"子标题："+mSubTitle+"<br/>"
+                        +"展示类型："+mAdType+"<br/>"
+                        +"送积分："+coin_num+"<br/>"
+                        +"总任务数："+totalTaskCount+"<br/>"
+                        +"已完成任务："+submitTaskCount+"<br/>"
+                        +"未完成任务："+pendingTaskCount+"<br/>";
+
+						//banner图片
+                        var mBigPicUrl = adEntity.mBigPicUrl;
+                        
+						document.getElementById("span01").innerHTML = title;
+						document.getElementById("img01").setAttribute('src',mBigPicUrl);
+						document.getElementById("img01").onclick = function(){
+                            //把uuid传给客户端，开始做任务
+                            UnicomTMSCoinAd.startCoinTask2({
+                                uuid:uuid,
+                                taskType: 102,
+                                channel: channel,
+                                sceneId: '0000',
+                                rewards:true,
+                                startCoinTaskCallback:startCoinTaskCallback,
+                                appStatusCallback:appStatusCallback
+                            });
+                        }
+                        
+					}else{
+						document.getElementById("span01").innerHTML = "暂无广告";
+					}
+				}else{
+					document.getElementById("span01").innerHTML = JSON.stringify(data);
+				}
+			}
+        }
+
+        function startCoinTaskCallback(data){
+            alert(JSON.stringify(data));
+        }
+
+        function appStatusCallback(data){
+            //接收app成功下载安装激活各种状态回调，返回各种状态的字符串
+            // * 1：onAdAppDownloadStart  app开始下载
+            // * 2：onAdAppDownloadSucceed  app下载完成
+            // * 3：onAdAppInstall  app安装
+            // * 4：onAdAppActive  app从手厅启动激活
+            if(data === 'onAdAppActive'){
+                alert('从手厅启动并激活了广告APP');
+            }
+        }
+
+        var config = {
+            taskType: 102,
+            channel: channel,
+            sceneId: '0000',
+            callback:acceptData //接收回调数据
+        }
+        //获取Banner广告
+        UnicomTMSCoinAd.getBannerAdData(config);
+	}
+
+    //示例：获取APP广告数据
+	function getAppDownloadData(){
+        //定义一个函数，接收广告数据
+        function acceptData(data) {
+            alert(JSON.stringify(data));
+            if(!_.isNil(data)){
+				if("success" == data.status){
+                    var coinAdEntityList = data.coinAdEntityList;
+                    //总任务数量
+                    var totalTaskCount = data.taskCount;
+                    //待执行的任务数量
+                    var pendingTaskCount = data.pendingCount;
+                    //已执行的任务数量
+                    var submitTaskCount = data.submitCount;
+					if(coinAdEntityList.length > 0){
+                        //当前广告
+                        var adEntity = coinAdEntityList[0].styleAdEntity;
+                        //开始做任务时需要传给客户端
+                        var uuid = coinAdEntityList[0].uuid;
+
+                        //当前需要做的任务，如果任务都做完了，需要判断是否是undefind或者null
+                        var coin_num = 0;
+                        var coinTask = coinAdEntityList[0].coinTask;
+                        if(!_.isNil(coinTask)){
+                            //任务赠送积分的数量
+                            coin_num = coinTask.coin_num;
+                        }
+                        var mSubTitle = adEntity.mSubTitle;
+                        var mMainTitle = adEntity.mMainTitle;
+
+                        var title = "主标题："+mMainTitle+"<br/>"
+                        +"子标题："+mSubTitle+"<br/>"
+                        +"送积分："+coin_num+"<br/>"
+                        +"总任务数："+totalTaskCount+"<br/>"
+                        +"已完成任务："+submitTaskCount+"<br/>"
+                        +"未完成任务："+pendingTaskCount+"<br/>";
+
+						//icon图片
+                        var mIconUrl = adEntity.mIconUrl;
+                        
+                        document.getElementById("span02").innerHTML = title;
+                        
+                        document.getElementById("img02").setAttribute('src',mIconUrl);
+                        
+						document.getElementById("img02").onclick = function(){
+                            //把uuid传给客户端，开始做任务
+                            UnicomTMSCoinAd.startCoinTask2({
+                                uuid:uuid,
+                                taskType: 812721,
+                                channel: channel,
+                                sceneId: '0006',
+                                rewards:true,
+                                startCoinTaskCallback:startCoinTaskCallback,
+                                appStatusCallback:appStatusCallback
+                            });
+						}
+					}else{
+						document.getElementById("span02").innerHTML = "暂无广告";
+					}
+				}else{
+					document.getElementById("span02").innerHTML = JSON.stringify(data);
+				}
+			}
+        }
+
+        function startCoinTaskCallback(data){
+            alert(JSON.stringify(data));
+        }
+
+        function appStatusCallback(data){
+            //接收app成功下载安装激活各种状态回调，返回各种状态的字符串
+            // * 1：onAdAppDownloadStart  app开始下载
+            // * 2：onAdAppDownloadSucceed  app下载完成
+            // * 3：onAdAppInstall  app安装
+            // * 4：onAdAppActive  app从手厅启动激活
+            if(data === 'onAdAppActive'){
+                alert('从手厅启动并激活了广告APP，此时业务可以自己赠送奖励/道具');
+                //任务完成，需要重新刷新广告数据
+                getAppDownloadData();
+            }
+        }
+
+        var config = {
+            taskType: 812721 ,
+            channel: channel,
+            sceneId: '0006',
+            callback:acceptData //接收回调数据
+        }
+        //获取APP广告
+        UnicomTMSCoinAd.getAppAdData(config);
+	}
+    
+    //获取客户端版本号
+    function checkClientVersion(){
+        //客户端版本规则： 7.4版本返回android@7.0400   7.4.1版本返回android@7.0401  7.3版本返回android@7.0300
+        alert("当前客户端版本："+UnicomTMSCoinAd.getClientVersion());
+    }
+
+    //检查是否已经登录
+    function checkIsLogin(){
+        //获取客户端用户信息，该方法不要连续调用，尽量只调用一次
+        UnicomTMSCoinAd.getClientInfo(function(data){
+            console.log(data);
+            if(!_.isEmpty(data['currentPhoneNumber'])){
+                alert('已经登录');
+            }else{
+                alert('没有登录');
+            }
+        })
+    }
+
+
+    //调用客户端登录
+    function login(){
+        //拉登录
+        UnicomTMSCoinAd.loginByClient();
+    }
+
+    //主动分享
+    function share(){
+        var shareTitle = "分享标题";
+        var shareContent = "分享内容";
+        //分享图标
+        var shareIconURL = "https://dss0.baidu.com/73t1bjeh1BF3odCf/it/u=2495614754,2239892519&fm=85&s=FB90D6AE0E5548D616AB61FB03001018";
+        //分享链接
+        var url = 'https://www.baidu.com'
+        var targetURL = encodeURIComponent(url);
+        var shareURL ="https://wap.10010.com/t/clickCountLogRecord/pageClickCount.htm?flag=new&actCode=活动编码&title=" + encodeURIComponent("业务名称") + "&openUrl=" + targetURL;
+
+        //小程序页面路径
+        var miniProgramShare = '0';//开启微信小程序分享,配置非1表示不分享小程序
+        var miniProgramPath = '小程序页面路径';
+        var miniProgramUserName = '小程序原始ID';
+        var miniProgramType = '0';//小程序环境（0-正式，1-开发，2-体验）
+
+        var shareJson = {
+            shareTitle: shareTitle,
+            shareContent: shareContent,
+            shareURL: shareURL,
+            shareIconURL: shareIconURL,
+            miniProgramShare: miniProgramShare,
+            miniProgramType: miniProgramType,
+            miniProgramUserName: miniProgramUserName,
+            miniProgramPath: miniProgramPath
+        }
+
+        //调用客户端分享接口
+        UnicomTMSCoinAd.share(shareJson);
+    }
+
+    //配置更多菜单
+    function registeMoreMenu(){
+        //应用于截屏分享:截屏分享二维码图片链接
+        var shareQrcodeURL = "";
+
+        var shareTitle = "分享标题";
+        var shareContent = "分享内容";
+        //分享图标
+        var shareIconURL = "https://dss0.baidu.com/73t1bjeh1BF3odCf/it/u=2495614754,2239892519&fm=85&s=FB90D6AE0E5548D616AB61FB03001018";
+        //分享链接
+        var url = 'https://www.baidu.com'
+        var targetURL = encodeURIComponent(url);
+        var shareURL ="https://wap.10010.com/t/clickCountLogRecord/pageClickCount.htm?flag=new&actCode=活动编码&title=" + encodeURIComponent("业务名称") + "&openUrl=" + targetURL;
+
+        //小程序页面路径
+        var miniProgramShare = '0';//开启微信小程序分享,配置非1表示不分享小程序
+        var miniProgramPath = '小程序页面路径';
+        var miniProgramUserName = '小程序原始ID';
+        var miniProgramType = '0';//小程序环境（0-正式，1-开发，2-体验）
+
+        var shareJson = {
+            shareTitle: shareTitle,
+            shareContent: shareContent,
+            shareURL: shareURL,
+            shareIconURL: shareIconURL,
+            shareQrcodeURL: shareQrcodeURL,
+            miniProgramShare: miniProgramShare,
+            miniProgramType: miniProgramType,
+            miniProgramUserName: miniProgramUserName,
+            miniProgramPath: miniProgramPath
+        }
+        //调用客户端接口配置右上角更多菜单
+        UnicomTMSCoinAd.registerMoreMenu(shareJson);
+    }
+
+</script>
+
+</html>
