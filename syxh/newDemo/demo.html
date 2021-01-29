@@ -72,7 +72,11 @@
 
     //banner广告
     function bannerVideo(){
-        
+        var config = {
+            type: "handleLocal",
+            url: "LOCAL_SETTING"
+        }
+        window.js_invoke.interact(JSON.stringify(config));
     }
 
     //信息流广告
