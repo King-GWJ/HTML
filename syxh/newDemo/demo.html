@@ -38,7 +38,13 @@
         // .finally(()=>{
         //     //方法执行完毕
         // });
-
+    console.log("版本：:"+navigator.userAgent);
+    if (navigator.userAgent.indexOf('unicom') > -1) {
+        console.log("版本：:true");
+    } else {
+        console.log("版本：:false");
+    
+    }
     //激励视屏
     function rewardVideo(){
 
@@ -72,11 +78,23 @@
 
     //banner广告
     function bannerVideo(){
-        var config = {
-            type: "handleLocal",
-            url: "LOCAL_SETTING"
-        }
-        window.js_invoke.interact(JSON.stringify(config));
+        ms.exec("evaluationUnicom",{
+            //01: 福利提醒
+            //02: 领取成功
+            //03: 已参与
+            //04: 积分已到账
+            type:"01",
+            //type值为04的时候，number和sourceType参数非必传。其余值为为必传。
+            //积分数量
+            number:"",
+            //入口位置(1:话费,2:快讯)
+            sourceType:""
+        }).catch(e=>{
+            // 获取失败
+        });
+        ms.exec("evaluationUnicom",{}).catch(e=>{
+            // 获取失败
+        });
     }
 
     //信息流广告

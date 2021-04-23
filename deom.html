@@ -3,33 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        div {
+            padding: 20px;
+            font-size: 35px;
+            border: 2px solid #000000;
+        }
+    </style>
 </head>
 <body>
-<button onclick="click()">我是个空白页面</button>
+<div onclick="click()">我是个空白页面</div>
 <script>
-    var config = {
-        type: 'webYYTtitle',
-        msg: 'https://img.client.10010.com/web_prepub/wodefujinyyt/index.html'
-    }
     
-    window.js_invoke.interact(JSON.stringify(config));
     function click() {
-        function isAndroid() {
-            var u = navigator.userAgent;
-            var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
-            return isAndroid;
-        }
-        
-        var config = {
-            type: 'webYYTtitle',
-            msg: 'https://img.client.10010.com/web_prepub/wodefujinyyt/index.html'
-        }
-        
-        if (isAndroid()) {
-            window.js_invoke.interact(JSON.stringify(config));
-        } else {
-            window.location = encodeURI("clientAction=" + JSON.stringify(config));
-        }
+        alert("1111");
+        // function isAndroid() {
+        //     var u = navigator.userAgent;
+        //     var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
+        //     return isAndroid;
+        // }
+        // alert(1234)
+        // var config = {
+        //     type: "handleLocal",
+        //     url: "LOCAL-SETTING"
+        // }
+        //
+        // if (isAndroid()) {
+        //     window.js_invoke.interact(JSON.stringify(config));
+        // } else {
+        //     window.location = encodeURI("clientAction=" + JSON.stringify(config));
+        // }
+        // alert(4567)
+    
     }
 </script>
 </body>
