@@ -87,13 +87,14 @@
      * loginType = "23"; 微信绑定手机号登录
      * loginType = "999"; 一键免密登录
      */
-        var config = {
-			type: 'serveLogin',
-			logintype: '5'
-        }
-        
-        window.js_invoke.interact(JSON.stringify(config));
-        
+        // var config = {
+		// 	type: 'serveLogin',
+		// 	logintype: '5'
+        // }
+        //
+        // window.js_invoke.interact(JSON.stringify(config));
+        js_invoke.interact("{\"type\":\"redirect\",\"msg\":\"\",\"url\":\"LOCAL-YYTFB5G\"}");
+    
     }
 
 
