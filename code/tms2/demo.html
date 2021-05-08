@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport"
+		content="width=device-width,initial-scale=1, user-scalable=no, minimum-scale=1, maximum-scale=1" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Cache-Control" content="no-cache" />
+	<meta http-equiv="Expires" content="0" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	<meta name="format-detection" content="telephone = no" />
+	 <script src="js/jquery-3.3.1.min.js"></script> 
+    <script src="js/unicom-coin-chuanshanjia-1.1.js"></script>
+    <script src="https://img.client.10010.com/stprototype/commonlibs/toutiaolibs/unicom-coin-chuanshanjia-1.1.js"></script> 
+    <script src="js/vconsole.min.js"></script>  
+    <!-- 	<script src="js/lodash-4.5.0.js"></script> -->
+    
+    <title>广告接口示例</title>
+    <style>
+        button {
+            width: 100px;
+            height: 50px;
+            margin: 20px;
+        }
+
+        .alert {
+            display: none;
+            position: fixed;
+            background-color: rgba(1, 1, 1, 0.2);
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .content {
+            width: 300px;
+            height: 400px;
+            background-color: gray;
+            position: relative;
+        }
+
+        .guanggao {
+            position: absolute;
+            left: 0;
+            bottom: 0px;
+            width: 100%;
+            height: 150px;
+            background: white;
+            color: white;
+            font-size: 60px;
+            text-align: center;
+            line-height: 100px;
+        }
+
+        body {
+            position: relative;
+        }
+    </style>
+</head>
+
+<body style="overflow-y: scroll;">
+
+    <h1>IOS 需要区分APP下载包和测试包</h1>
+
+     <button id="btn1">展示展示弹窗</button>
+    
+    <div class="alert" id="alert">
+        <div class="container">
+            <div class="content">
+                <div class="guanggao" id="guanggaobanner">广告位</div>
+            </div>
+        </div>
+    </div>   
+
+    <div onclick="showXXLAd(375,284,'945419709','945454801')" style="font-size: 20px;border: 2px solid #000000;margin-top:20px;">信息流横版视频</div>
+    <div onclick="showXXLAd(375,275,'945419719','945454804')" style="font-size: 20px;border: 2px solid #000000;margin-top:20px;">信息流上下图文模板</div>
+    <div onclick="showXXLAd(375,126,'945419723','945454806')" style="font-size: 20px;border: 2px solid #000000;margin-top:20px;">信息流左图右文模板</div>
+    
+    <div onclick="showVideoAd2(false,false,'945235462')" style="font-size: 20px;border: 2px solid #000000;margin-top:20px;">IOS APPstore 下载包激励视频</div> 
+
+    <div onclick="showVideoAd2(false,false)" style="font-size: 20px;border: 2px solid #000000;margin-top:20px;">激励视频----弹积分数------ unToast1=false  unToast2=false</div> 
+    <div onclick="showVideoAd2(true,false)" style="font-size: 20px;border: 2px solid #000000;margin-top:20px;">激励视频----不弹积分数，弹关闭提示，-----unToast1=true  unToast2=false</div>
+    <div onclick="showVideoAd2(true,true)" style="font-size: 20px;border: 2px solid #000000;margin-top:20px;">激励视频----什么都不弹，-----unToast1=true  unToast2=true</div>  
+    <div onclick="showVideoAd3(false,false)" style="font-size: 20px;border: 2px solid #000000;margin-top:20px;">激励视频----送道具--弹关闭提示,----unToast1=false  unToast2=false</div> 
+    <div onclick="showVideoAd3(false,true)" style="font-size: 20px;border: 2px solid #000000;margin-top:20px;">激励视频----送道具--不弹关闭提示,-----unToast1=false  unToast2=true</div> 
+
+
+    <div onclick="showBannerAd(600,90,'945284223','945339386')" style="font-size: 20px;border: 2px solid #000000;margin-top:10px;">IOS APPstore下载包专用 banner</div>
+
+    <div onclick="showBannerAd(600,300,'945284219','945298227')" style="font-size: 20px;border: 2px solid #000000;margin-top:20px;">banner(600*300)</div>
+    <div onclick="showBannerAd(600,400,'945284220','945298229')" style="font-size: 20px;border: 2px solid #000000;margin-top:10px;">banner(600*400)</div>
+    <div onclick="showBannerAd(600,500,'945284221','945298232')" style="font-size: 20px;border: 2px solid #000000;margin-top:10px;">banner(600*500)</div>
+    <div onclick="showBannerAd(600,260,'945284222','945298235')" style="font-size: 20px;border: 2px solid #000000;margin-top:10px;">banner(600*260)</div>
+    <div onclick="showBannerAd(600,90,'945284223','945202680')" style="font-size: 20px;border: 2px solid #000000;margin-top:10px;">banner(600*90)</div>
+    <div onclick="showBannerAd(600,150,'945284224','945298241')" style="font-size: 20px;border: 2px solid #000000;margin-top:10px;">banner(600*150)</div>
+    <div onclick="showBannerAd(640,100,'945284225','945298243')" style="font-size: 20px;border: 2px solid #000000;margin-top:10px;">banner(640*100)</div>
+    <div onclick="showBannerAd(690,388,'945284227','945298245')" style="font-size: 20px;border: 2px solid #000000;margin-top:10px;">banner(690*388)</div>
+    <div id="hideBannerDiv" onclick="hideBannerAd()" style="font-size: 20px;border: 2px solid #000000;margin-top:20px;display: none;">3：关闭显示的Banner广告（android 7.4.1版本及以上支持）</div>
+
+    <br>
+    <br>
+    <br>
+
+    <h1>登录+分享</h1>
+    <div onclick="checkClientVersion()" style="font-size: 20px;border: 2px solid #000000;">获取客户端版本号</div>
+    <div onclick="checkIsLogin()" style="font-size: 20px;border: 2px solid #000000;margin-top:20px;">判断是否登录</div>
+    <div onclick="login()" style="font-size: 20px;border: 2px solid #000000;margin-top:20px;">拉起客户端登录</div>
+    <div onclick="share()" style="font-size: 20px;border: 2px solid #000000;margin-top:20px;">主动分享</div>
+    <div onclick="registeMoreMenu()" style="font-size: 20px;border: 2px solid #000000;margin-top:20px;">注册右上角菜单</div>  
+
+</body>
+
+<script>
+
+   function haha(){
+        console('哈哈哈')
+    }
+
+    UnicomCSJCoinAd.getClientInfo(info=>{
+        alert(JSON.stringify(info))
+    })
+    
+    vConsole = new VConsole(); 
+
+    //联通总部渠道，涉及收益分成，请换成自己的渠道
+    var channel = "woyuedu";
+
+    var alert1 = document.getElementById("alert");
+    var btn1 = document.getElementById("btn1");
+    btn1.onclick = function () { 
+        alert1.style.display = "block"  
+        // showBannerAd(600,300,'945284218','945398586','guanggaobanner')
+        showXXLAd(375,126,'945419723','945454806','guanggaobanner');
+    }
+    alert1.addEventListener("click", function () { 
+        alert1.style.display = "none"
+        // hideBannerAd()
+        hideXXLAd();
+
+    }, false); 
+
+    //获取客户端信息，手机号为currentPhoneNumber
+    UnicomCSJCoinAd.getClientInfo(info=>{
+        alert(info.currentPhoneNumber);
+    });  
+
+    //展示信息流
+    function showXXLAd(XXLWidth,XXLHeight,androidCodeId,iosCodeId,bannerDivId){
+        //定义浏览器宽高变量
+        var browserWidth = 0;
+        var browserHeight = 0; 
+
+        //定义一个函数，接收广告加载显示完成通知
+        function xinxiliuAdOnLoadSuccess() { 
+            document.getElementById('hideBannerDiv').style.display = 'inline-block';
+        }
+
+        //定义一个函数，接收广告加载错误通知
+        function xinxiliuAdOnLoadError(data) {
+            if(!_.isNil(data) && "failed" == data.status){
+                var errorMessage = data.errorMessage;
+                alert('bannerAdOnLoadError 错误原因：'+errorMessage);
+            }
+        }
+
+        //定义一个函数，接收广告被用户手动关闭的通知
+        function xinxiliuAdOnHideManually(){ 
+            document.getElementById('hideBannerDiv').style.display = 'none';
+        }
+
+        //获取浏览器宽高信息
+        UnicomCSJCoinAd.getBrowserInfo(function(data){
+            //单位是px，在移动端表示的是屏幕的逻辑像素单位
+            browserWidth = data.width; 
+            browserHeight = data.height;  
+            
+            //设置banner缩放比例,1为撑满屏幕大小
+            var scale = 1;
+            var bottomMargin = 20;  
+            var width = browserWidth;  
+            var top = browserHeight-width*XXLHeight/XXLWidth*scale-bottomMargin;  
+
+           //如果有弹窗,需要添加以下代码。
+            if(bannerDivId){ 
+                top = document.getElementById(bannerDivId).getBoundingClientRect().top; 
+                scale = document.getElementById(bannerDivId).offsetWidth/browserWidth - 0.01;  
+            }  
+            
+            var xinxiliuAdConfig = {
+                androidCodeId:androidCodeId,
+                iosCodeId:iosCodeId,    
+                channelName:'阅读页banner广告',//代码位名称，落日志用
+               
+                style:{
+                    top:top, 
+                    width:XXLWidth,
+                    height:XXLHeight,
+                    scale:scale  
+                },  
+                onLoadSuccess:xinxiliuAdOnLoadSuccess, //广告初始化完成并显示时回调，必须要配置
+                onLoadError:xinxiliuAdOnLoadError, //广告初始化错误,可以不配置
+                onHideManually:xinxiliuAdOnHideManually //广告被用户手动关闭时回调，可以不配置。
+            } 
+
+            // alert(JSON.stringify(xinxiliuAdConfig));
+
+            //初始化banner广告，自动显示。广告初始化完成显示时会回调onLoad函数。
+            UnicomCSJCoinAd.showToutiaoXXLAd(xinxiliuAdConfig);
+        });
+    }
+
+        //直接显示Banner广告（广告图是60:9比例）， 最低支持android客户端7.4版本
+        function showBannerAd(bannerWidth,bannerHeight,androidCodeId,iosCodeId,bannerDivId){
+        //定义浏览器宽高变量
+        var browserWidth = 0;
+        var browserHeight = 0; 
+
+        //定义一个函数，接收广告加载显示完成通知
+        function bannerAdOnLoadSuccess() {
+            alert('头条bannerAdOnLoadSuccess 广告加载成功');
+            document.getElementById('hideBannerDiv').style.display = 'inline-block';
+        }
+
+        //定义一个函数，接收广告加载错误通知
+        function bannerAdOnLoadError(data) {
+            if(!_.isNil(data) && "failed" == data.status){
+                var errorMessage = data.errorMessage;
+                alert('bannerAdOnLoadError 错误原因：'+errorMessage);
+            }
+        }
+
+        //定义一个函数，接收广告被用户手动关闭的通知
+        function bannerAdOnHideManually(){
+            alert('头条bannerAdonHideManually 手动关闭了广告');
+            document.getElementById('hideBannerDiv').style.display = 'none';
+        }
+
+        //获取浏览器宽高信息
+        UnicomCSJCoinAd.getBrowserInfo(function(data){
+            //单位是px，在移动端表示的是屏幕的逻辑像素单位
+            browserWidth = data.width;
+
+            browserHeight = data.height;  
+            
+            //广告展示宽度
+                //设置banner缩放比例,1为撑满屏幕大小
+            var scale = 1;
+            var width = browserWidth; 
+            var bottomMargin = 0;  
+            var top = browserHeight-width*bannerHeight/bannerWidth*scale-bottomMargin;  
+
+           //如果有弹窗,需要添加以下代码。
+            if(bannerDivId){ 
+                top = document.getElementById(bannerDivId).getBoundingClientRect().top + 5; 
+                scale = document.getElementById(bannerDivId).offsetWidth/browserWidth - 0.05;  
+            }  
+            
+            var bannerAdConfig = {
+                androidCodeId:androidCodeId,
+                iosCodeId:iosCodeId,  
+                channel: 'GGPD', 
+                channelName:'阅读页banner广告',//必传，不传后果很重。代码位名称，找维护申请
+                gameId:'需要换成真实gameId',
+                gameSceneId:'需要换成真实gameSceneId',
+                //位置和宽度单位是px
+                style:{
+                    top:top,
+                    width:bannerWidth,
+                    height:bannerHeight,
+                    scale:scale  //缩放比例，1是按照屏幕宽度。不填默认为1。
+                }, 
+                adIntervals:0, //定时刷新频率，可以不配置，不配置或者配置小于等于0则不会定时刷新。单位秒
+                onLoadSuccess:bannerAdOnLoadSuccess, //广告初始化完成并显示时回调，必须要配置
+                onLoadError:bannerAdOnLoadError, //广告初始化错误,可以不配置
+                onHideManually:bannerAdOnHideManually //广告被用户手动关闭时回调，可以不配置。
+            } 
+
+            //初始化banner广告，自动显示。广告初始化完成显示时会回调onLoad函数。
+            UnicomCSJCoinAd.showToutiaoBannerAd(bannerAdConfig);
+        });
+    }
+
+
+    //隐藏banner广告，最低支持android客户端7.4版本
+    function hideBannerAd(){
+        //隐藏正在显示的广告
+        UnicomCSJCoinAd.hideToutiaoBannerAd();
+        document.getElementById('hideBannerDiv').style.display = 'none';
+    } 
+
+    //隐藏信息流
+    function hideXXLAd(){
+        UnicomCSJCoinAd.hideToutiaoXXLAd();
+        document.getElementById('hideBannerDiv').style.display = 'none';
+    }
+
+
+    //直接显示视频广告，通过传递一个JSON配置参数
+    function showVideoAd2(unToast,unToast2,iosCodeId){
+
+        //验证参数，该参数是客户端收到头条SDK给出该回调时，异步传给前端，用来标识是否是个有效的观看。  
+        let isRewardVerify = false; 
+
+        //异步回调前端是视频是否正常看完，当该方法正常执行时，才是一个有效的观看
+        //用户点击跳过不会执行该方法
+        //该方法不要使用任何UI操作。（8.2开始支持）
+        function onRewardVerify(result){
+            isRewardVerify = result;
+        }
+
+         //定义一个函数，接收视频播放完成通知
+        //num :积分数
+        //id  :加密串
+        function onComplete(num,id) {
+            alert(num +"   ----加密串----"+id+"----视频是否正常看完："+isRewardVerify);
+        } 
+
+        alert("unWantedToast:"+unToast+"   unWantedToast2:"+unToast2);
+
+        //获取104任务类型 (104只是示例，上线时要根据正式分配的编号来读取数据)
+        // //boolean参数表示是否有除了积分之外的奖励？如果需要赠送除了积分之外的奖励请传true，否则传fasle
+        var videoAdConfig = {
+            androidCodeId:'945703657',//申请
+            iosCodeId:iosCodeId || '945114867',
+            acId:'AC20200814162815',
+            taskId:'6c54032f662c4d2bb576872ed408232c',
+            direction:0,//1是横屏 0或者不填是竖屏
+            // acId:'fgdfgsdgsdg',
+            // taskId:'dsgdsfgdsgdsf',
+            remark:'阅读计时器任务得积分', //必传，不传后果很重。代码位名称，找维护申请
+            channel: 'GGPD', 
+            channelName:'阅读计时器看视频得积分',
+            accountChannel:'517050707',//渠道编码，取值见下方截图
+            accountUserName:"517050707",//用户名，取值见下方截图
+            accountPassword:"123456",//用户密码，取值见下方截图
+            accountToken:"4640b530b3f7481bb5821c6871854ce5", //用户token，取值见下方截图
+            rewards:true,////除了积分任务是否有其它奖励。比如阅读需要奖励用户阅读下一章的权限，要配成true
+            unWantedToast:unToast,////是否需要任务完成后弹出“您获取X积分”，配置为true不弹。默认false
+            unWantedToast2:unToast2,////是否需要任务完成后弹出“您获取X积分”，配置为true不弹。默认false
+            // onPrepared:null, //视频开始播放回调，可以不配置
+            onComplete:onComplete, //视频播放完成回调,必须配置
+            onRewardVerify:onRewardVerify,
+
+            // onError:null //视频开始错误回调，可以不配置。
+        }
+
+        // var videoAdConfig = {
+        //         androidCodeId: '945114203',//Android代码位，需要申请
+        //         iosCodeId: '945114867',//IOS代码位，从APPstore下载的包和测试包需要使用不同的代码位
+        //         acId: 'AC20200416152907',//活动编码，不送积分不用填写
+        //         taskId: '627292f1243148159c58fd58917c3e67',//任务ID，不送积分不用填写
+        //         remark: '签到抽奖小游戏',//渠道名称 
+        //         channel: 'GGPD',  //频道编码 ，现阶段写死GGPD，必填
+        //         channelName: '签到小游戏-激励视频',//代码位名称，需要传，说明见下方附表截图 
+        //         accountChannel: '517050707',//渠道编码，取值见下方截图
+        //         accountUserName: "517050707",//用户名，取值见下方截图
+        //         accountPassword: "123456",//用户密码，取值见下方截图
+        //         accountToken: "4640b530b3f7481bb5821c6871854ce5", //用户token，取值见下方截图
+        //         rewards: true,//除了积分任务是否有其它奖励。比如阅读需要奖励用户阅读下一章的权限，要配成true
+        //         unWantedToast: false,//是否需要任务完成后弹出“您获取X积分”，配置为true不弹。默认false
+        //         unWantedToast2: false,//是否需要在看完视频后弹出“关闭当前页面领取奖励”，配置为true不弹，默认false
+        //         // onPrepared:null, //视频开始播放回调，可以不配置
+        //         onComplete: onComplete, //视频播放完成回调,必须配置
+        // // onError:null //视频开始错误回调，可以不配置。
+        //    }
+
+           alert(JSON.stringify(videoAdConfig))
+
+        //显示视频广告
+        UnicomCSJCoinAd.showToutiaoVideoAd(videoAdConfig);
+    }  
+
+    //送道具
+    function showVideoAd3(unToast,unToast2,iosCodeId){
+
+        //定义一个函数，接收视频播放完成通知
+        function onComplete(num) {
+            console.log(new Date());
+        } 
+        
+        alert("unWantedToast:"+unToast+"   unWantedToast2:"+unToast2);
+
+        //获取104任务类型 (104只是示例，上线时要根据正式分配的编号来读取数据)
+        //boolean参数表示是否有除了积分之外的奖励？如果需要赠送除了积分之外的奖励请传true，否则传fasle
+        var videoAdConfig = {
+            androidCodeId:'945188114',//申请
+            iosCodeId:iosCodeId||'945682512',
+            acId:'AC20200814162815',
+            taskId:'6c54032f662c4d2bb576872ed408232c',
+            // acId:'fgdfgsdgsdg',
+            // taskId:'dsgdsfgdsgdsf',
+            remark:'阅读计时器任务得积分', 
+            channel: 'GGPD', 
+            channelName:'阅读计时器看视频得积分',//必传，不传后果很重。代码位名称，找维护申请
+            accountChannel:'517050707',//渠道编码，取值见下方截图
+            accountUserName:"517050707",//用户名，取值见下方截图
+            accountPassword:"123456",//用户密码，取值见下方截图
+            accountToken:"4640b530b3f7481bb5821c6871854ce5", //用户token，取值见下方截图
+            rewards:true,
+            unWantedToast2:unToast2,////是否需要任务完成后弹出“关闭当前页面领取奖励”，配置为true不弹。默认false
+            // onPrepared:null, //视频开始播放回调，可以不配置
+            onComplete:onComplete, //视频播放完成回调,必须配置
+            // onError:null //视频开始错误回调，可以不配置。
+        } 
+        //显示视频广告
+        UnicomCSJCoinAd.showToutiaoVideoAd(videoAdConfig);
+    }  
+ 
+    
+    //获取客户端版本号
+    function checkClientVersion(){
+        //客户端版本规则： 7.4版本返回android@7.0400   7.4.1版本返回android@7.0401  7.3版本返回android@7.0300
+        alert("当前客户端版本："+UnicomCSJCoinAd.getClientVersion());
+    }
+
+    //检查是否已经登录
+    function checkIsLogin(){
+        //获取客户端用户信息，该方法不要连续调用，尽量只调用一次
+        UnicomCSJCoinAd.getClientInfo(function(data){
+            console.log(data);
+            if(!_.isEmpty(data['currentPhoneNumber'])){
+                alert('已经登录');
+            }else{
+                alert('没有登录');
+            }
+        })
+    }
+
+
+    //调用客户端登录
+    function login(){
+        //拉登录
+        UnicomCSJCoinAd.loginByClient();
+    }
+
+    //主动分享
+    function share(){
+        var shareTitle = "分享标题";
+        var shareContent = "分享内容";
+        //分享图标
+        var shareIconURL = "https://dss0.baidu.com/73t1bjeh1BF3odCf/it/u=2495614754,2239892519&fm=85&s=FB90D6AE0E5548D616AB61FB03001018";
+        //分享链接
+        var url = 'https://www.baidu.com'
+        var targetURL = encodeURIComponent(url);
+        var shareURL ="https://wap.10010.com/t/clickCountLogRecord/pageClickCount.htm?flag=new&actCode=活动编码&title=" + encodeURIComponent("业务名称") + "&openUrl=" + targetURL;
+
+        //小程序页面路径
+        var miniProgramShare = '0';//开启微信小程序分享,配置非1表示不分享小程序
+        var miniProgramPath = '小程序页面路径';
+        var miniProgramUserName = '小程序原始ID';
+        var miniProgramType = '0';//小程序环境（0-正式，1-开发，2-体验）
+
+        var shareJson = {
+            shareTitle: shareTitle,
+            shareContent: shareContent,
+            shareURL: shareURL,
+            shareIconURL: shareIconURL,
+            miniProgramShare: miniProgramShare,
+            miniProgramType: miniProgramType,
+            miniProgramUserName: miniProgramUserName,
+            miniProgramPath: miniProgramPath
+        }
+
+        //调用客户端分享接口
+        UnicomCSJCoinAd.share(shareJson);
+    }
+
+    //配置更多菜单
+    function registeMoreMenu(){
+        //应用于截屏分享:截屏分享二维码图片链接
+        var shareQrcodeURL = "";
+
+        var shareTitle = "分享标题";
+        var shareContent = "分享内容";
+        //分享图标
+        var shareIconURL = "https://dss0.baidu.com/73t1bjeh1BF3odCf/it/u=2495614754,2239892519&fm=85&s=FB90D6AE0E5548D616AB61FB03001018";
+        //分享链接
+        var url = 'https://www.baidu.com'
+        var targetURL = encodeURIComponent(url);
+        var shareURL ="https://wap.10010.com/t/clickCountLogRecord/pageClickCount.htm?flag=new&actCode=活动编码&title=" + encodeURIComponent("业务名称") + "&openUrl=" + targetURL;
+
+        //小程序页面路径
+        var miniProgramShare = '0';//开启微信小程序分享,配置非1表示不分享小程序
+        var miniProgramPath = '小程序页面路径';
+        var miniProgramUserName = '小程序原始ID';
+        var miniProgramType = '0';//小程序环境（0-正式，1-开发，2-体验）
+
+        var shareJson = {
+            shareTitle: shareTitle,
+            shareContent: shareContent,
+            shareURL: shareURL,
+            shareIconURL: shareIconURL,
+            shareQrcodeURL: shareQrcodeURL,
+            miniProgramShare: miniProgramShare,
+            miniProgramType: miniProgramType,
+            miniProgramUserName: miniProgramUserName,
+            miniProgramPath: miniProgramPath
+        }
+        //调用客户端接口配置右上角更多菜单
+        UnicomCSJCoinAd.registerMoreMenu(shareJson);
+    }
+
+    //调用此方法，入参传url，点击返回按钮会跳转到该地址
+    UnicomCSJCoinAd.registerDirectUrl("https://img.client.10010.com/adnew/play_center/#/CHOICE");
+
+    //在此处关闭音乐
+    function clientDirectorCallBack(){
+        alert("关闭音乐");
+        return false;
+    }
+
+</script>
+
+</html>
