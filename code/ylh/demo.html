@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1, user-scalable=no, minimum-scale=1, maximum-scale=1"/>
+    <script src="https://img.client.10010.com/stprototype/commonlibs/ms/msJSBridge-0.4.js"></script>
+    <script src="js/vconsole.min.js"></script>
+    <script src="js/msJSbridge.js"></script>
+    
+    <title>优量汇广告demo</title>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+        
+        body div {
+            font-size: 20px;
+            border: 2px solid #000000;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1 onclick="onRefresh()">优量汇广告测试页面</h1>
+
+<div onclick="checkClientVersion()">1：获取客户端版本号</div>
+
+<div onclick="nativeUnifiedAD()">2：自渲染广告</div>
+
+</body>
+<script>
+    vConsole = new VConsole();
+    function onRefresh(){
+        location.reload();
+    }
+    
+    //获取客户端版本号
+    function checkClientVersion() {
+        //判断当前客户端版本
+        let clientInfoSync = ms.getClientInfoSync();
+        alert(clientInfoSync.appVersion);
+        console.log("版本号:" + clientInfoSync.appVersion);
+    }
+    
+    function nativeUnifiedAD() {
+        
+        ms.exec("nativeUnifiedAD",{
+            posId:"5091787500144809",//代码位（必传）5091787500144809
+            count:1//广告数量
+        }).then(res=>{
+            console.log(JSON.stringify(res));
+    
+        }).catch(e=>{
+            console.log("失败："+JSON.stringify(e));
+        });
+        
+    }
+    
+    
+</script>
+</html>
