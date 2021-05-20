@@ -8,30 +8,49 @@
             margin: 0px;
             padding: 0px;
         }
-
+        body{
+            width: 100%;
+        }
         header {
-            display: flex;
+            /*display: flex;*/
             background: #000000;
-            padding-left: 100px;
-            padding-right: 100px;
-            justify-content: space-between;
+            /*padding-left: 100px;*/
+            /*padding-right: 100px;*/
+            /*在主轴上的对其方式:两端对齐，使其项目之间的间隔都相等*/
         }
         
-        ul {
+        .nav {
             display: flex;
-            align-items:center;
+            align-items: center;
+            margin-right: 300px;
+            margin-left: 300px;
+            /*在主轴上的对其方式:两端对齐，使其项目之间的间隔都相等*/
+            justify-content: space-between;
         }
         
         .nav li {
             color: #ffffff;
             list-style-type: none;
             font-size: 25px;
-            justify-content:space-around;
         }
         
-        .login{
+        .login {
             display: flex;
-            align-items:center;
+            align-items: center;
+        }
+        
+        .login div {
+            display: flex;
+            background: #f8a503;
+            color: #ffffff;
+    
+        }
+        
+        .section {
+            border-radius: 10px;
+            background: #add8e6;
+            width: 800px;
+            height: 200px;
         }
     
     </style>
@@ -42,15 +61,17 @@
     <div class="logo">
         <img src="./img/logo.jpg" alt="">
     </div>
+    
     <ul class="nav">
         <li>课程</li>
         <li>路径</li>
         <li>猿问</li>
         <li>手记</li>
     </ul>
+    
     <div class="login">
-        <input type="button" value="登录">
-        <input type="button" value="注册">
+        <div>登录</div>
+        <div>注册</div>
     </div>
 </header>
 <!-- 主体内容 -->
