@@ -8,23 +8,31 @@
             margin: 0px;
             padding: 0px;
         }
-        body{
+        
+        body {
             width: 100%;
         }
+        
         header {
-            /*display: flex;*/
+            height: 100px;
+            display: flex;
             background: #000000;
-            /*padding-left: 100px;*/
-            /*padding-right: 100px;*/
-            /*在主轴上的对其方式:两端对齐，使其项目之间的间隔都相等*/
+            padding-left: 100px;
+            padding-right: 100px;
+        }
+        
+        .logo {
+            background: #017fcb;
         }
         
         .nav {
+            width: 100%;
             display: flex;
+            /*垂直居中*/
             align-items: center;
-            margin-right: 300px;
+            margin-right: 100px;
             margin-left: 300px;
-            /*在主轴上的对其方式:两端对齐，使其项目之间的间隔都相等*/
+            /*!*在主轴上的对其方式:两端对齐，使其项目之间的间隔都相等*!*/
             justify-content: space-between;
         }
         
@@ -35,15 +43,20 @@
         }
         
         .login {
+            width: 100%;
             display: flex;
+            /*垂直居中*/
             align-items: center;
+            /*右对齐*/
+            justify-content: flex-end;
         }
         
         .login div {
-            display: flex;
             background: #f8a503;
             color: #ffffff;
-    
+            border-radius: 3px;
+            padding: 2px;
+            margin-left: 30px;
         }
         
         .section {
@@ -52,7 +65,48 @@
             width: 800px;
             height: 200px;
         }
-    
+        
+        section {
+            display: flex;
+            flex-wrap: wrap;
+            /*水平居中*/
+            justify-content: center;
+        }
+        
+        .section {
+            display: flex;
+            box-sizing: border-box;
+            /*上右下左*/
+            margin: 40px 60px 0px 0px;
+            /*上下；右左*/
+            padding: 20px 50px;
+        }
+        
+        .section .box {
+            width: 100%;
+            display: flex;
+            /*垂直排列*/
+            flex-direction: column;
+            /*在主轴上的对其方式:垂直对齐，使其项目之间的间隔都相等*/
+            justify-content: space-between;
+        }
+        
+        .section .shopping {
+            width: 100%;
+            display: flex;
+            /*右对齐*/
+            justify-content: flex-end;
+            /*垂直居中*/
+            align-items: center;
+        }
+        
+        .section .shopping .btn{
+            background: #f8a503;
+            color: #ffffff;
+            border-radius: 5px;
+            padding: 8px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -122,3 +176,4 @@
 </section>
 </body>
 </html>
+</head>
